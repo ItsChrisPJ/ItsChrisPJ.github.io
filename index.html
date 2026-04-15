@@ -32,6 +32,29 @@
             padding: 40px 20px;
         }
 
+        /* --- ANIMACIONES MÁGICAS --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Elementos base invisibles al inicio */
+        .anim-1, .anim-2, .anim-3 {
+            opacity: 0;
+        }
+
+        /* Aplicando la animación con retrasos en cascada */
+        .anim-1 { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .anim-2 { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards; }
+        .anim-3 { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
+        /* --------------------------- */
+
         header {
             margin-bottom: 60px;
             text-align: left;
@@ -66,7 +89,7 @@
             border: 1px solid rgba(212, 163, 115, 0.1);
             border-radius: 12px;
             padding: 25px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .project-card:hover {
@@ -95,6 +118,7 @@
 
         .project-links a:hover {
             background-color: var(--primary-hover);
+            transform: scale(1.05);
         }
 
         .support-box {
@@ -104,6 +128,12 @@
             padding: 25px;
             margin-top: 40px;
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .support-box:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-hover);
         }
 
         .support-box p {
@@ -123,12 +153,13 @@
             font-weight: 600;
             font-size: 1rem;
             text-decoration: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .btn-outline:hover {
             background: var(--primary);
             color: var(--bg-dark);
+            transform: scale(1.05);
         }
 
         footer {
@@ -142,13 +173,13 @@
 <body>
 
     <div class="container">
-        <header>
+        <header class="anim-1">
             <h1>Hola, soy <span>Chris</span> ✌️</h1>
             <p class="subtitle">Estudiante de Ingeniería en Informática. Me apasiona automatizar procesos y crear software minimalista.</p>
         </header>
 
-        <section>
-            <h2> Mi Trabajo</h2>
+        <section class="anim-2">
+            <h2>🚀 Mi Trabajo</h2>
             
             <div class="project-card">
                 <h3 class="project-title">OrgPro - Organizador Inteligente</h3>
@@ -159,16 +190,16 @@
             </div>
         </section>
 
-        <section>
+        <section class="anim-3">
             <div class="support-box">
                 <h3>☕ Apoya mis proyectos</h3>
                 <p>Si OrgPro o alguna de mis herramientas te ahorró horas de trabajo, puedes invitarme un café de forma 100% segura.</p>
                 
                 <a href="https://link.mercadopago.cl/itschrispj" target="_blank" class="btn-outline">Apoyar con Mercado Pago</a>
             </div>
-        </section>  
+        </section>
 
-        <footer>
+        <footer class="anim-3">
             <p>© 2026 Chris. Construido con ☕ y código puro.</p>
         </footer>
     </div>
