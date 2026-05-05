@@ -5,204 +5,266 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chris | Desarrollador</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Paleta de colores heredada de OrgPro */
+        /* Paleta de colores heredada de OrgPro v1.6 (Arch Edition) */
         :root {
-            --bg-dark: #1a120b;
-            --card-bg: #2c1e14;
-            --primary: #d4a373;
-            --primary-hover: #e6b89c;
-            --text-main: #f5efe6;
-            --text-muted: #a89f91;
+            --bg-dark: #1a1b26;
+            --tile-bg: rgba(36, 37, 54, 0.8);
+            --text-main: #c0caf5;
+            --text-muted: #565f89;
+            --gap: 15px;
+            --border-radius: 4px;
+            --border-light: rgba(255, 255, 255, 0.05);
+            --accent: #7aa2f7; 
+            --accent-glow: rgba(122, 162, 247, 0.4);
+            --btn-bg: rgba(122, 162, 247, 0.1);
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
+            font-family: 'Consolas', 'Courier New', monospace;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: var(--gap);
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        .arch-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            gap: var(--gap);
         }
 
-        /* --- ANIMACIONES MÁGICAS --- */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* --- WAYBAR (Barra superior estilo Linux) --- */
+        .waybar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--tile-bg);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            font-size: 0.85rem;
+            font-weight: bold;
+            border: 1px solid var(--border-light);
         }
 
-        /* Elementos base invisibles al inicio */
-        .anim-1, .anim-2, .anim-3 {
+        .mod {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin: 0 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+        }
+
+        .mod.active { color: var(--accent); }
+        .way-center { color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- TILING GRID --- */
+        .tiling-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap);
+            flex-grow: 1;
+        }
+
+        .tile {
+            background: var(--tile-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             opacity: 0;
         }
 
-        /* Aplicando la animación con retrasos en cascada */
-        .anim-1 { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        .anim-2 { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards; }
-        .anim-3 { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
-        /* --------------------------- */
-
-        header {
-            margin-bottom: 60px;
-            text-align: left;
+        .tile:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
+        .tile-header {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .tile-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* --- TYPOGRAPHY & ELEMENTS --- */
         h1 {
-            font-size: 3rem;
+            font-size: 2.2rem;
             margin: 0;
             color: var(--text-main);
+            font-weight: normal;
         }
 
-        h1 span {
-            color: var(--primary);
+        h1 span { color: var(--accent); }
+
+        .terminal-prompt {
+            color: #9ece6a; /* Hacker Green accent para el prompt */
+            margin-right: 8px;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-top: 10px;
-            font-weight: 300;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .project-card {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(212, 163, 115, 0.1);
-            border-radius: 12px;
-            padding: 25px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 163, 115, 0.4);
-        }
+        p { color: var(--text-muted); font-size: 0.95rem; }
 
         .project-title {
             font-size: 1.4rem;
-            font-weight: 600;
-            margin: 0 0 10px 0;
-            color: var(--primary);
+            margin: 0;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .project-links a {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--bg-dark);
-            background-color: var(--primary);
+        /* --- BUTTONS --- */
+        .btn {
+            background: var(--btn-bg);
+            color: var(--accent);
+            border: 1px solid var(--accent);
             padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .project-links a:hover {
-            background-color: var(--primary-hover);
-            transform: scale(1.05);
-        }
-
-        .support-box {
-            background-color: rgba(212, 163, 115, 0.05);
-            border: 1px dashed var(--primary);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 40px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .support-box:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-hover);
-        }
-
-        .support-box p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-
-        .btn-outline {
-            display: inline-block;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 10px 20px;
-            border-radius: 6px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-weight: bold;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            transition: all 0.3s ease;
+            width: fit-content;
         }
 
-        .btn-outline:hover {
-            background: var(--primary);
+        .btn:hover {
+            background: var(--accent);
             color: var(--bg-dark);
-            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--accent-glow);
         }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .anim-1 { animation-delay: 0.1s; }
+        .anim-2 { animation-delay: 0.3s; }
+        .anim-3 { animation-delay: 0.5s; }
 
         footer {
-            margin-top: 60px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            padding: 20px 0;
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s forwards;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header class="anim-1">
-            <h1>Hola, soy <span>Chris</span> ✌️</h1>
-            <p class="subtitle">Estudiante de Ingeniería en Informática. Me apasiona automatizar procesos y crear software minimalista.</p>
-        </header>
+    <div class="arch-container">
+        <!-- WAYBAR SUPERIOR -->
+        <nav class="waybar">
+            <div class="way-left">
+                <span class="mod active">
+                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 17l6-6-6-6M12 19h8"></path></svg>
+                    Chris
+                </span>
+            </div>
+            <div class="way-center">~/portfolio/web</div>
+            <div class="way-right">
+                <span class="mod" id="clock">00:00</span>
+            </div>
+        </nav>
 
-        <section class="anim-2">
-            <h2>🚀 Mi Trabajo</h2>
-            
-            <div class="project-card">
-                <h3 class="project-title">OrgPro - Organizador Inteligente</h3>
-                <p>Aplicación de escritorio híbrida que utiliza IA (Llama 3.1) para auto-organizar archivos en segundo plano sin congelar la interfaz.</p>
-                <div class="project-links">
-                    <a href="https://github.com/ItsChrisPJ/OrgPro" target="_blank">Ver Proyecto</a>
+        <main class="tiling-grid">
+            <!-- TILE 1: PRESENTACIÓN -->
+            <section class="tile anim-1">
+                <div class="tile-header">
+                    <span>[user_info.txt]</span>
+                    <span style="color: var(--text-muted); text-transform: none;">Lectura</span>
                 </div>
-            </div>
-        </section>
+                <div class="tile-content">
+                    <h1><span class="terminal-prompt">chris@dev:~$</span>whoami</h1>
+                    <p style="margin-top: 10px; color: var(--text-main);">Hola, soy <span>Chris</span> ✌️</p>
+                    <p>Estudiante de Ingeniería en Informática. Me apasiona automatizar procesos, el desarrollo minimalista y mantener el sistema limpio y eficiente.</p>
+                </div>
+            </section>
 
-        <section class="anim-3">
-            <div class="support-box">
-                <h3>☕ Apoya mis proyectos</h3>
-                <p>Si OrgPro o alguna de mis herramientas te ahorró horas de trabajo, puedes invitarme un café de forma 100% segura.</p>
-                
-                <a href="https://link.mercadopago.cl/itschrispj" target="_blank" class="btn-outline">Apoyar con Mercado Pago</a>
-            </div>
-        </section>
+            <!-- TILE 2: PROYECTOS -->
+            <section class="tile anim-2">
+                <div class="tile-header">
+                    <span>[workspace / repos]</span>
+                    <span style="color: var(--text-muted); text-transform: none;">Ejecutando</span>
+                </div>
+                <div class="tile-content">
+                    <h3 class="project-title">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" stroke-width="2" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        OrgPro
+                    </h3>
+                    <p style="font-size: 0.85rem; color: var(--accent);">Organizador Inteligente (v1.6 Arch Edition)</p>
+                    <p>Aplicación de escritorio híbrida que utiliza IA local (Llama 3.1) para auto-organizar archivos en el sistema operativo mediante Deep Scan, sin congelar la interfaz y con un diseño Tiling Window Manager.</p>
+                    <div style="margin-top: 10px;">
+                        <a href="https://github.com/ItsChrisPJ/OrgPro" target="_blank" class="btn">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" style="margin-right: 6px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            Ver en GitHub
+                        </a>
+                    </div>
+                </div>
+            </section>
 
-        <footer class="anim-3">
-            <p>© 2026 Chris. Construido con ☕ y código puro.</p>
+            <!-- TILE 3: APOYO -->
+            <section class="tile anim-3">
+                <div class="tile-header">
+                    <span>[donate.sh]</span>
+                </div>
+                <div class="tile-content" style="align-items: flex-start;">
+                    <h3 class="project-title" style="color: var(--text-main); font-size: 1.1rem;">☕ Apoya mis proyectos</h3>
+                    <p>Si OrgPro o alguna de mis herramientas te ahorró horas de trabajo, puedes invitarme un café de forma 100% segura para mantener los repositorios vivos.</p>
+                    <a href="https://link.mercadopago.cl/itschrispj" target="_blank" class="btn" style="border-color: #9ece6a; color: #9ece6a;">
+                        >_ Apoyar con MercadoPago
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>root@chris-portfolio:~# exit</p>
+            <p style="margin-top: 5px;">© 2026 Chris. Construido con ☕ y código puro.</p>
         </footer>
     </div>
 
+    <script>
+        // Script para la hora en la Waybar
+        setInterval(() => { 
+            const clock = document.getElementById('clock');
+            if(clock) clock.innerText = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false}); 
+        }, 1000);
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
+    </script>
 </body>
 </html>
