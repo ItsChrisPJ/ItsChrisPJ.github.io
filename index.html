@@ -65,6 +65,7 @@
       <i style="--x:92%;--y:12%;--s:80px;--c:142,197,230;--a:.16;--t:18s;--dl:-10s"></i>
       <i style="--x:46%;--y:52%;--s:70px;--c:255,213,143;--a:.12;--t:22s;--dl:-7s"></i>
     </div>
+    <canvas id="city"></canvas>
     <div class="steam"></div>
     <canvas id="rain"></canvas>
   </div>
@@ -79,14 +80,19 @@
         </div>
       </div>
       <h2 id="intro-title">Antes de entrar</h2>
-      <p class="lede">Elige cuánta lluvia, luz y neón quieres ver. Puedes cambiarlo cuando quieras desde el botón Ambiente.</p>
+      <p class="lede">Elige cuánta lluvia, ciudad, luz y neón quieres ver. Puedes cambiarlo cuando quieras desde el botón Ambiente.</p>
       <form id="intro-form">
         <fieldset class="mode-list">
           <legend>Ambiente</legend>
-          <label class="mode"><input type="radio" name="intro-mode" data-mode="high"><b>Completo <em data-rec="high" hidden>recomendado para tu equipo</em></b><small>Lluvia en el vidrio, luces desenfocadas, vapor y neón.</small></label>
-          <label class="mode"><input type="radio" name="intro-mode" data-mode="balanced"><b>Equilibrado <em data-rec="balanced" hidden>recomendado para tu equipo</em></b><small>Lluvia ligera y neón, sin desenfoques ni vapor.</small></label>
+          <label class="mode"><input type="radio" name="intro-mode" data-mode="high"><b>Completo <em data-rec="high" hidden>recomendado para tu equipo</em></b><small>Lluvia en el vidrio, ciudad que pasa, luces desenfocadas, vapor y neón.</small></label>
+          <label class="mode"><input type="radio" name="intro-mode" data-mode="balanced"><b>Equilibrado <em data-rec="balanced" hidden>recomendado para tu equipo</em></b><small>Lluvia ligera, ciudad que pasa y neón, sin desenfoques ni vapor.</small></label>
           <label class="mode"><input type="radio" name="intro-mode" data-mode="low"><b>Ligero <em data-rec="low" hidden>recomendado para tu equipo</em></b><small>Sin animaciones de fondo. Ideal para equipos lentos o si prefieres calma.</small></label>
         </fieldset>
+        <div class="seg" role="radiogroup" aria-label="Estilo de la ciudad de fondo">
+          <span class="seg-t">Ciudad de fondo</span>
+          <label><input type="radio" name="intro-city" data-city="pixel"><span>Pixel art</span></label>
+          <label><input type="radio" name="intro-city" data-city="anime"><span>Anime lo-fi</span></label>
+        </div>
         <label class="check"><input type="checkbox" data-fx="sound"> Activar sonido de lluvia</label>
         <button class="btn" type="submit">Abrir el local</button>
       </form>
@@ -974,11 +980,17 @@
       <p>Ajusta cuántos efectos quieres ver. Se guarda en este navegador.</p>
       <fieldset class="mode-list">
         <legend>Nivel de efectos</legend>
-        <label class="mode"><input type="radio" name="amb-mode" data-mode="high"><b>Completo</b><small>Lluvia, luces desenfocadas, vapor y neón.</small></label>
-        <label class="mode"><input type="radio" name="amb-mode" data-mode="balanced"><b>Equilibrado</b><small>Lluvia ligera y neón.</small></label>
+        <label class="mode"><input type="radio" name="amb-mode" data-mode="high"><b>Completo</b><small>Lluvia, ciudad que pasa, luces desenfocadas, vapor y neón.</small></label>
+        <label class="mode"><input type="radio" name="amb-mode" data-mode="balanced"><b>Equilibrado</b><small>Lluvia ligera, ciudad que pasa y neón.</small></label>
         <label class="mode"><input type="radio" name="amb-mode" data-mode="low"><b>Ligero</b><small>Sin animaciones de fondo.</small></label>
       </fieldset>
+      <div class="seg" role="radiogroup" aria-label="Estilo de la ciudad">
+        <span class="seg-t">Estilo de la ciudad</span>
+        <label><input type="radio" name="amb-city" data-city="pixel"><span>Pixel art</span></label>
+        <label><input type="radio" name="amb-city" data-city="anime"><span>Anime lo-fi</span></label>
+      </div>
       <div class="toggles">
+        <label><input type="checkbox" data-fx="city"> Ciudad que pasa al fondo</label>
         <label><input type="checkbox" data-fx="rain"> Lluvia en el vidrio</label>
         <label><input type="checkbox" data-fx="bokeh"> Luces desenfocadas</label>
         <label><input type="checkbox" data-fx="steam"> Vapor</label>

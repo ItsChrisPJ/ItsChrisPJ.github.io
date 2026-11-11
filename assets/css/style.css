@@ -129,8 +129,8 @@ ul { list-style: none; padding: 0; }
     linear-gradient(180deg, #0a131b 0%, #0e1b25 45%, #122431 100%);
 }
 
-.bokeh, .steam, #rain { display: none; }
-.fx-bokeh .bokeh, .fx-steam .steam, .fx-rain #rain { display: block; }
+.bokeh, .steam, #rain, #city { display: none; }
+.fx-bokeh .bokeh, .fx-steam .steam, .fx-rain #rain, .fx-city #city { display: block; }
 
 .bokeh { position: absolute; inset: 0 0 30% 0; }
 .bokeh i {
@@ -151,6 +151,24 @@ ul { list-style: none; padding: 0; }
 @keyframes mist { to { transform: translate3d(5%, -4%, 0); } }
 
 #rain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; }
+
+/* Ciudad que pasa: se desvanece hacia arriba para no cortar el cielo */
+#city {
+  position: absolute; left: 0; bottom: 0;
+  -webkit-mask-image: linear-gradient(to top, #000 0, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0, #000 80%, transparent 100%);
+}
+#city.is-pixel { image-rendering: pixelated; }
+#city { opacity: .88; transition: opacity .7s ease; }
+.scrolled #city { opacity: .5; }
+
+/* velo de cinta vieja: viñeta y líneas finas, solo con la ciudad encendida */
+.fx-city .scene::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 45%, transparent 58%, rgba(3, 8, 12, .42) 100%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .016) 0 1px, transparent 1px 3px);
+}
 
 main, footer { position: relative; z-index: 1; }
 
@@ -227,7 +245,7 @@ section { position: relative; padding: clamp(72px, 9vw, 120px) 0; }
 .btn:active { transform: translateY(3px); box-shadow: 0 0 0 var(--_edge); }
 .btn svg { width: 17px; height: 17px; }
 .btn.ghost {
-  --_bg: transparent; --_fg: var(--text); --_edge: transparent;
+  --_bg: rgba(11, 21, 29, .72); --_fg: var(--text); --_edge: transparent;
   border-color: rgba(255, 213, 143, .4);
 }
 .btn.ghost:hover { border-color: var(--amber); color: var(--amber-soft); transform: none; box-shadow: none; }
@@ -313,7 +331,7 @@ section { position: relative; padding: clamp(72px, 9vw, 120px) 0; }
 .hero h1 { display: flex; flex-direction: column; font-family: var(--font-neon); font-weight: 400; font-size: clamp(5rem, 14vw, 9.6rem); line-height: .86; letter-spacing: 0; }
 .hero h1 span:last-child { padding-left: .9em; }
 .role { margin-top: 48px; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: var(--amber-soft); line-height: 1.15; }
-.lead { color: var(--text-dim); max-width: 56ch; margin-top: 14px; font-size: 1.1rem; }
+.lead { color: var(--text-dim); max-width: 56ch; margin-top: 14px; font-size: 1.1rem; text-shadow: 0 1px 12px rgba(8, 16, 22, .95), 0 0 3px rgba(8, 16, 22, .8); }
 .lead strong { color: var(--text); font-weight: 600; }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 
@@ -554,7 +572,8 @@ footer p + p { margin-top: 6px; }
 
 /* ---------- Diálogo de ambiente ---------- */
 .ambient {
-  margin: auto; width: min(92vw, 440px); padding: 26px; border: 1px solid var(--line); border-radius: 14px;
+  margin: auto; width: min(92vw, 440px); padding: 22px 24px; border: 1px solid var(--line); border-radius: 14px;
+  max-height: calc(100dvh - 24px); overflow-y: auto;
   background: #0e1c26; color: var(--text); box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
 }
 .ambient::backdrop { background: rgba(4, 9, 13, .65); }
@@ -562,11 +581,26 @@ footer p + p { margin-top: 6px; }
 @keyframes pop { from { transform: translateY(8px); opacity: 0; } }
 .ambient h2 { font-size: 2.1rem; color: #f4f8fa; }
 .ambient > form > p { color: var(--muted); font-size: .92rem; margin: 6px 0 18px; }
-.ambient .mode-list { margin-bottom: 16px; }
+.ambient .mode-list { margin-bottom: 14px; gap: 8px; }
+.ambient .mode { padding: 10px 14px; }
+.ambient .seg { margin-bottom: 12px; }
 .ambient .toggles { display: grid; gap: 4px; margin-bottom: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
-.ambient .toggles label { display: flex; align-items: center; gap: 12px; padding: 7px 0; color: var(--text-dim); cursor: pointer; }
+.ambient .toggles label { display: flex; align-items: center; gap: 12px; padding: 5px 0; color: var(--text-dim); cursor: pointer; }
 .ambient .toggles input { accent-color: var(--amber); width: 18px; height: 18px; }
 .ambient .btn { width: 100%; }
+
+/* Selector de estilo de la ciudad (intro y panel) */
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 18px; text-align: left; }
+.seg-t { grid-column: 1 / -1; font-size: .86rem; color: var(--muted); }
+.seg label { position: relative; cursor: pointer; }
+.seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.seg label > span {
+  display: block; text-align: center; padding: 10px 8px; border: 1px solid var(--line); border-radius: 10px;
+  background: rgba(22, 42, 55, .55); font-weight: 600; color: var(--text-dim); transition: border-color .2s, background .2s;
+}
+.seg label:hover > span { border-color: rgba(255, 181, 71, .5); }
+.seg input:checked + span { border-color: var(--amber); background: rgba(255, 181, 71, .08); color: var(--text); }
+.seg input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 3px; }
 
 /* ---------- Aviso ---------- */
 .toast {
