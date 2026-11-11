@@ -1,32 +1,40 @@
 # Portafolio · Chris Toloza
 
 Sitio estático (HTML + CSS + JS, sin dependencias ni build) publicado con GitHub Pages en
-**https://itschrispj.github.io**. Estética Hyprland / Waybar / Tokyo Night.
+**https://itschrispj.github.io**. Estética: un café de noche visto desde la calle, con lluvia en el
+vidrio, un letrero de neón y los proyectos como comandas colgadas en el riel de la cocina.
 
 ## Estructura
 
 ```
 index.html            contenido de toda la página
-404.html              página de error con estilo terminal
+404.html              página de error ("Esta mesa no existe")
 favicon.svg
 robots.txt · sitemap.xml
-assets/css/style.css  temas (variables CSS) y estilos
-assets/js/main.js     waybar, lanzador Ctrl+K, temas, filtros, animaciones
+assets/css/style.css  paleta (variables CSS), tipografías y estilos
+assets/js/main.js     entrada, ambiente (lluvia, luces, sonido), filtros, comanda
+assets/fonts/         tipografías autoalojadas (woff2)
 assets/og.png         imagen que se ve al compartir el link (1200×630)
 ```
 
 ## Cómo editar
 
 - **Textos y proyectos:** todo está en `index.html`, con comentarios `<!-- ===== SECCIÓN ===== -->`.
-  Cada proyecto es un `<article class="card project">`.
+  Cada proyecto es un `<article class="project">` (una "comanda").
 - **Agregar un proyecto:** copia un `<article>` existente, cambia título/descripción/etiquetas y
   `data-cat="ia escritorio web movil backend iot cliente"` (lo usan los filtros).
 - **Capturas reales:** reemplaza el `<svg>` dentro de `<div class="shot">` por
   `<img src="assets/img/axioma.png" alt="Captura de Axioma" loading="lazy">`.
-- **Colores / temas:** variables al inicio de `assets/css/style.css`
-  (`tokyo`, `mocha`, `gruvbox`, `latte`). El tema por defecto está en `<html data-theme="tokyo">`.
-- **Email y usuario de GitHub:** constantes `EMAIL` y `GH_USER` al inicio de `assets/js/main.js`
-  y los enlaces `mailto:` / `github.com` en `index.html`.
+- **Colores:** variables al inicio de `assets/css/style.css` (noche, luces ámbar y rosa, papel térmico).
+- **Comanda del inicio:** bloque `.ticket` dentro de `.printer` en `index.html`.
+- **Email:** constante `EMAIL` al inicio de `assets/js/main.js` y los enlaces `mailto:` en `index.html`.
+
+## Ambiente y rendimiento
+
+La primera vez que se entra, un letrero "Cerrado" pide elegir el nivel de efectos
+(Completo, Equilibrado o Ligero) y si se quiere sonido de lluvia (generado con Web Audio, sin archivos).
+La elección se guarda en el navegador y se cambia con el botón **Ambiente**. El nivel recomendado se
+calcula según el equipo y se respeta `prefers-reduced-motion`.
 
 ## Probar en local
 
@@ -36,7 +44,7 @@ python3 -m http.server 8000   # y abrir http://localhost:8000
 
 ## Detalles
 
-- Accesible: navegación por teclado, `skip-link`, `aria-current`, contraste AA en los 4 temas,
-  respeta `prefers-reduced-motion`.
-- Funciona sin JavaScript (el JS solo añade animaciones, temas y el lanzador).
+- Accesible: navegación por teclado, `skip-link`, `aria-current`, diálogos nativos, contraste AA.
+- Funciona sin JavaScript (el JS solo añade la entrada, los efectos y los filtros).
 - SEO: metadatos Open Graph, JSON-LD, `sitemap.xml`, `robots.txt`.
+- Tipografías: Big Shoulders Display, Figtree, Courier Prime y Sacramento (licencia OFL), autoalojadas.
