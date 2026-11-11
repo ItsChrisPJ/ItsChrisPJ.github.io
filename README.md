@@ -20,7 +20,7 @@ assets/og.png         imagen que se ve al compartir el link (1200×630)
 - **Textos y proyectos:** todo está en `index.html`, con comentarios `<!-- ===== SECCIÓN ===== -->`.
   Cada proyecto es un `<article class="card project">`.
 - **Agregar un proyecto:** copia un `<article>` existente, cambia título/descripción/etiquetas y
-  `data-cat="ia escritorio web movil"` (lo usan los filtros).
+  `data-cat="ia escritorio web movil backend iot cliente"` (lo usan los filtros).
 - **Capturas reales:** reemplaza el `<svg>` dentro de `<div class="shot">` por
   `<img src="assets/img/axioma.png" alt="Captura de Axioma" loading="lazy">`.
 - **Colores / temas:** variables al inicio de `assets/css/style.css`

@@ -420,6 +420,18 @@ section { padding: clamp(64px, 9vw, 112px) 0; position: relative; }
 /* Ilustraciones de proyecto (SVG en línea) */
 .shot .mono { font-family: var(--font-ui); }
 
+/* Enlaces múltiples en una tarjeta */
+.p-links { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Repos menores */
+.also { margin-top: 36px; padding: 22px 24px; border: 1px dashed var(--border); border-radius: var(--radius, 14px); background: color-mix(in srgb, var(--surface) 60%, transparent); }
+.also h3 { font-size: .85rem; color: var(--accent); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 14px; }
+.also h3::before { content: "~/"; color: var(--muted); text-transform: none; letter-spacing: 0; }
+.also ul { list-style: none; display: grid; gap: 10px; }
+.also li { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; font-size: .92rem; }
+.also li a { font-family: var(--font-ui); font-weight: 700; }
+.also li span { color: var(--text-dim); }
+
 .more-repos { margin-top: 32px; display: flex; justify-content: center; }
 
 /* ---------- Stack ---------- */
@@ -569,3 +581,31 @@ footer p + p { margin-top: 6px; }
 .s-a { stroke: var(--accent); } .s-b { stroke: var(--accent-2); } .s-g { stroke: var(--green); }
 .s-y { stroke: var(--yellow); } .s-r { stroke: var(--red); } .s-m { stroke: var(--muted); }
 .shot svg text { user-select: none; }
+
+/* ---------- Proyecto insignia (caso de estudio) ---------- */
+.project.flagship { grid-column: 1 / -1; }
+.project.flagship .shot { aspect-ratio: 16 / 5.2; }
+.project.flagship .p-body { padding: 26px 30px 30px; }
+.project.flagship h3 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
+.p-split { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(20px, 3vw, 44px); margin-top: 4px; }
+.p-main { display: flex; flex-direction: column; gap: 16px; }
+.p-learned { padding: 18px 20px; border-radius: 10px; background: color-mix(in srgb, var(--bg) 55%, transparent); border: 1px solid var(--border); }
+.p-learned h4 { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; color: var(--green); margin-bottom: 12px; }
+.p-learned h4::before { content: "$ "; color: var(--muted); }
+.p-learned ul { display: grid; gap: 10px; }
+.p-learned li { font-size: .88rem; line-height: 1.55; color: var(--text-dim); padding-left: 18px; position: relative; }
+.p-learned li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+.p-learned li b { color: var(--text); font-weight: 600; }
+@media (max-width: 980px) {
+  .p-split { grid-template-columns: 1fr; }
+  .project.flagship .shot { aspect-ratio: 16 / 7; }
+}
+@media (max-width: 720px) {
+  .project.flagship { grid-column: auto; }
+  .project.flagship .p-body { padding: 22px 20px 24px; }
+  .project.flagship .shot { aspect-ratio: 16 / 9; }
+}
+
+/* Etiquetas de cabecera de tarjeta: que no se partan en móvil */
+.p-meta { flex-wrap: wrap; row-gap: 8px; }
+.tag { white-space: nowrap; }

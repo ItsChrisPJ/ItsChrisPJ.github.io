@@ -105,6 +105,7 @@
   var phrases = [
     "estudiante de Ingeniería en Informática",
     "desarrollador de apps con IA y agentes",
+    "construyendo sistemas para negocios reales",
     "usuario de Arch Linux + Hyprland",
     "curioso por naturaleza"
   ];
@@ -211,12 +212,16 @@
   var ACTIONS = [
     { l: "Ir a Inicio", h: "1", k: "inicio home", run: function () { go("inicio"); } },
     { l: "Ir a Sobre mí", h: "2", k: "sobre mi about perfil", run: function () { go("sobre-mi"); } },
-    { l: "Ir a Proyectos", h: "3", k: "proyectos projects axioma orgpro", run: function () { go("proyectos"); } },
+    { l: "Ir a Proyectos", h: "3", k: "proyectos projects axioma orgpro sushi planner invernadero agenda", run: function () { go("proyectos"); } },
     { l: "Ir a Stack", h: "4", k: "stack habilidades skills tecnologias", run: function () { go("stack"); } },
     { l: "Ir a Trayectoria", h: "5", k: "trayectoria experiencia formacion estudios", run: function () { go("trayectoria"); } },
     { l: "Ir a Contacto", h: "6", k: "contacto contact email", run: function () { go("contacto"); } },
     { l: "Abrir GitHub", h: "abrir ↗", k: "github repos codigo", run: function () { window.open("https://github.com/" + GH_USER, "_blank", "noopener"); } },
-    { l: "Abrir OrgPro en GitHub", h: "abrir ↗", k: "orgpro repo", run: function () { window.open("https://github.com/" + GH_USER + "/OrgPro", "_blank", "noopener"); } },
+    { l: "Abrir Axioma en GitHub", h: "abrir ↗", k: "axioma repo juego debate", run: function () { window.open("https://github.com/" + GH_USER + "/AXIOMA", "_blank", "noopener"); } },
+    { l: "Abrir Smart Planner en GitHub", h: "abrir ↗", k: "planner smart agenda supabase repo", run: function () { window.open("https://github.com/" + GH_USER + "/PlannerApp", "_blank", "noopener"); } },
+    { l: "Abrir Happy Sushi en GitHub", h: "abrir ↗", k: "happy sushi pwa repo", run: function () { window.open("https://github.com/" + GH_USER + "/Happy-Sushi-Prototype", "_blank", "noopener"); } },
+    { l: "Abrir Invernadero IoT en GitHub", h: "abrir ↗", k: "invernadero iot kotlin android repo", run: function () { window.open("https://github.com/" + GH_USER + "/ti3042-u2-invernadero-iot", "_blank", "noopener"); } },
+    { l: "Abrir API de agenda en GitHub", h: "abrir ↗", k: "agenda django drf jwt api repo", run: function () { window.open("https://github.com/" + GH_USER + "/ti3041-es03-agenda", "_blank", "noopener"); } },
     { l: "Copiar email", h: "copiar", k: "copiar correo mail", run: copyEmail },
     { l: "Cambiar al siguiente tema", h: "tema", k: "tema color theme", run: function () { themeBtn && themeBtn.click(); } }
   ].concat(THEMES.map(function (t) {
