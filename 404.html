@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="tokyo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>404 — command not found · Chris Toloza</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+  <style>
+    main{min-height:100vh;display:grid;place-items:center;padding:24px}
+    .term{max-width:640px;width:100%}
+    .term-body{font-size:.92rem;line-height:1.9}
+    .err{color:var(--red);font-weight:700}.ok{color:var(--green)}.dim{color:var(--muted)}
+    .big{font-family:var(--font-ui,monospace);font-size:clamp(3rem,10vw,5.5rem);font-weight:800;line-height:1;margin-bottom:10px}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="term">
+      <div class="term-bar"><span><b>kitty</b> — zsh</span><span>~/portfolio</span></div>
+      <div class="term-body">
+        <div class="big grad">404</div>
+        <div><span class="ok">chris@arch</span><span class="dim">:~$</span> cd <span id="p"></span></div>
+        <div class="err">zsh: no such file or directory</div>
+        <div><span class="ok">chris@arch</span><span class="dim">:~$</span> <span class="dim"># esa página no existe (todavía)</span></div>
+        <div style="margin-top:22px"><a class="btn" href="/">← Volver al inicio</a></div>
+      </div>
+    </div>
+  </main>
+  <script>document.getElementById("p").textContent=location.pathname</script>
+</body>
+</html>

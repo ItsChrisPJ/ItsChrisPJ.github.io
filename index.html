@@ -1,270 +1,584 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="tokyo">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris | Desarrollador</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cristopher “Chris” Toloza — Desarrollador · Ingeniería en Informática</title>
+  <meta name="description" content="Portafolio de Cristopher “Chris” Toloza, estudiante de Ingeniería en Informática en Chile. Apps de escritorio, web y móviles con IA y agentes: Axioma, OrgPro y más.">
+  <meta name="author" content="Cristopher Toloza">
+  <link rel="canonical" href="https://itschrispj.github.io/">
+  <meta name="theme-color" content="#1a1b26">
 
-        /* Paleta de colores heredada de OrgPro v1.6 (Arch Edition) */
-        :root {
-            --bg-dark: #1a1b26;
-            --tile-bg: rgba(36, 37, 54, 0.8);
-            --text-main: #c0caf5;
-            --text-muted: #565f89;
-            --gap: 15px;
-            --border-radius: 4px;
-            --border-light: rgba(255, 255, 255, 0.05);
-            --accent: #7aa2f7; 
-            --accent-glow: rgba(122, 162, 247, 0.4);
-            --btn-bg: rgba(122, 162, 247, 0.1);
-        }
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:title" content="Chris Toloza — Desarrollador">
+  <meta property="og:description" content="Apps con IA y agentes, Linux y mucha curiosidad. Mira mis proyectos: Axioma, OrgPro y más.">
+  <meta property="og:url" content="https://itschrispj.github.io/">
+  <meta property="og:image" content="https://itschrispj.github.io/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Consolas', 'Courier New', monospace;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: var(--gap);
-        }
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-        .arch-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 900px;
-            gap: var(--gap);
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
 
-        /* --- WAYBAR (Barra superior estilo Linux) --- */
-        .waybar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--tile-bg);
-            padding: 8px 16px;
-            border-radius: var(--border-radius);
-            font-size: 0.85rem;
-            font-weight: bold;
-            border: 1px solid var(--border-light);
-        }
+  <!-- Aplica el tema guardado antes de pintar (evita parpadeo) -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add("js");
+      try {
+        var t = localStorage.getItem("theme");
+        if (t) d.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
 
-        .mod {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 4px 8px;
-            border-radius: 4px;
-            margin: 0 4px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-muted);
-        }
-
-        .mod.active { color: var(--accent); }
-        .way-center { color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* --- TILING GRID --- */
-        .tiling-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--gap);
-            flex-grow: 1;
-        }
-
-        .tile {
-            background: var(--tile-bg);
-            border: 1px solid var(--border-light);
-            border-radius: var(--border-radius);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            opacity: 0;
-        }
-
-        .tile:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .tile-header {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .tile-content {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* --- TYPOGRAPHY & ELEMENTS --- */
-        h1 {
-            font-size: 2.2rem;
-            margin: 0;
-            color: var(--text-main);
-            font-weight: normal;
-        }
-
-        h1 span { color: var(--accent); }
-
-        .terminal-prompt {
-            color: #9ece6a; /* Hacker Green accent para el prompt */
-            margin-right: 8px;
-        }
-
-        p { color: var(--text-muted); font-size: 0.95rem; }
-
-        .project-title {
-            font-size: 1.4rem;
-            margin: 0;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* --- BUTTONS --- */
-        .btn {
-            background: var(--btn-bg);
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            width: fit-content;
-        }
-
-        .btn:hover {
-            background: var(--accent);
-            color: var(--bg-dark);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .anim-1 { animation-delay: 0.1s; }
-        .anim-2 { animation-delay: 0.3s; }
-        .anim-3 { animation-delay: 0.5s; }
-
-        footer {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            padding: 20px 0;
-            opacity: 0;
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s forwards;
-        }
-    </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Cristopher Ismael Toloza González",
+    "alternateName": "Chris Toloza",
+    "url": "https://itschrispj.github.io/",
+    "sameAs": ["https://github.com/ItsChrisPJ"],
+    "knowsAbout": ["Python", "JavaScript", "HTML", "CSS", "Inteligencia artificial", "Agentes de IA", "Linux"],
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "INACAP" },
+    "nationality": "Chile"
+  }
+  </script>
 </head>
+
 <body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
-    <div class="arch-container">
-        <!-- WAYBAR SUPERIOR -->
-        <nav class="waybar">
-            <div class="way-left">
-                <span class="mod active">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 17l6-6-6-6M12 19h8"></path></svg>
-                    Chris
-                </span>
-            </div>
-            <div class="way-center">~/portfolio/web</div>
-            <div class="way-right">
-                <span class="mod" id="clock">00:00</span>
-            </div>
-        </nav>
+  <!-- ===================== WAYBAR ===================== -->
+  <header class="waybar" role="banner">
+    <nav class="ws" aria-label="Secciones">
+      <a href="#inicio" data-sec="inicio" aria-current="true"><span>1</span><span class="lbl">inicio</span></a>
+      <a href="#sobre-mi" data-sec="sobre-mi"><span>2</span><span class="lbl">sobre mí</span></a>
+      <a href="#proyectos" data-sec="proyectos"><span>3</span><span class="lbl">proyectos</span></a>
+      <a href="#stack" data-sec="stack"><span>4</span><span class="lbl">stack</span></a>
+      <a href="#trayectoria" data-sec="trayectoria"><span>5</span><span class="lbl">trayectoria</span></a>
+      <a href="#contacto" data-sec="contacto"><span>6</span><span class="lbl">contacto</span></a>
+    </nav>
 
-        <main class="tiling-grid">
-            <!-- TILE 1: PRESENTACIÓN -->
-            <section class="tile anim-1">
-                <div class="tile-header">
-                    <span>[user_info.txt]</span>
-                    <span style="color: var(--text-muted); text-transform: none;">Lectura</span>
-                </div>
-                <div class="tile-content">
-                    <h1><span class="terminal-prompt">chris@dev:~$</span>whoami</h1>
-                    <p style="margin-top: 10px; color: var(--text-main);">Hola, soy <span>Chris</span> ✌️</p>
-                    <p>Estudiante de Ingeniería en Informática. Me apasiona automatizar procesos, el desarrollo minimalista y mantener el sistema limpio y eficiente.</p>
-                </div>
-            </section>
+    <div class="wb-title" aria-hidden="true"><span class="dim">~/portfolio/</span><span id="wb-path">inicio</span></div>
 
-            <!-- TILE 2: PROYECTOS -->
-            <section class="tile anim-2">
-                <div class="tile-header">
-                    <span>[workspace / repos]</span>
-                    <span style="color: var(--text-muted); text-transform: none;">Ejecutando</span>
-                </div>
-                <div class="tile-content">
-                    <h3 class="project-title">
-                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" stroke-width="2" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                        OrgPro
-                    </h3>
-                    <p style="font-size: 0.85rem; color: var(--accent);">Organizador Inteligente (v1.6 Arch Edition)</p>
-                    <p>Aplicación de escritorio híbrida que utiliza IA local (Llama 3.1) para auto-organizar archivos en el sistema operativo mediante Deep Scan, sin congelar la interfaz y con un diseño Tiling Window Manager.</p>
-                    <div style="margin-top: 10px;">
-                        <a href="https://github.com/ItsChrisPJ/OrgPro" target="_blank" class="btn">
-                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" style="margin-right: 6px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                            Ver en GitHub
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TILE 3: APOYO -->
-            <section class="tile anim-3">
-                <div class="tile-header">
-                    <span>[donate.sh]</span>
-                </div>
-                <div class="tile-content" style="align-items: flex-start;">
-                    <h3 class="project-title" style="color: var(--text-main); font-size: 1.1rem;">☕ Apoya mis proyectos</h3>
-                    <p>Si OrgPro o alguna de mis herramientas te ahorró horas de trabajo, puedes invitarme un café de forma 100% segura para mantener los repositorios vivos.</p>
-                    <a href="https://link.mercadopago.cl/itschrispj" target="_blank" class="btn" style="border-color: #9ece6a; color: #9ece6a;">
-                        >_ Apoyar con MercadoPago
-                    </a>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>root@chris-portfolio:~# exit</p>
-            <p style="margin-top: 5px;">© 2026 Chris. Construido con ☕ y código puro.</p>
-        </footer>
+    <div class="wb-right">
+      <button class="mod" id="open-palette" type="button" aria-label="Abrir lanzador de comandos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span class="txt">Buscar</span><kbd>Ctrl K</kbd>
+      </button>
+      <button class="mod" id="theme-btn" type="button" aria-label="Cambiar tema de color">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 3.5-4 3.5h-2a2 2 0 0 0-1.4 3.4A2 2 0 0 1 12 22z"/></svg>
+        <span class="txt" id="theme-name">Tokyo Night</span>
+      </button>
+      <span class="mod" aria-label="Hora en Chile"><span id="clock">--:--</span></span>
     </div>
+  </header>
 
-    <script>
-        // Script para la hora en la Waybar
-        setInterval(() => { 
-            const clock = document.getElementById('clock');
-            if(clock) clock.innerText = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false}); 
-        }, 1000);
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
-    </script>
+  <main id="contenido">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <span class="pill reveal"><i class="dot"></i> Chile · Ingeniería en Informática</span>
+
+            <p class="prompt-line reveal" style="--d:80ms">chris@arch:~$ <span class="cmd">whoami</span></p>
+            <h1 id="hero-title" class="reveal" style="--d:140ms">Soy <span class="grad">Chris Toloza</span>.</h1>
+
+            <p class="typed-wrap reveal" style="--d:220ms" aria-live="off">
+              <span class="pre">&gt; </span><span id="typed">estudiante de Ingeniería en Informática</span><span class="caret" aria-hidden="true"></span>
+            </p>
+
+            <p class="lead reveal" style="--d:300ms">
+              Creo apps de escritorio, web y móviles aplicando <strong>inteligencia artificial y agentes</strong>.
+              Me apoyo en el vibe coding para iterar rápido y enfocarme en resolver problemas reales.
+            </p>
+
+            <div class="cta reveal" style="--d:380ms">
+              <a class="btn" href="#proyectos">
+                Ver proyectos
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="btn ghost" href="#contacto">Contactarme</a>
+              <a class="btn ghost" href="https://github.com/ItsChrisPJ" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+                GitHub
+              </a>
+            </div>
+
+            <p class="hint reveal" style="--d:440ms">Tip: presiona <kbd>Ctrl</kbd> + <kbd>K</kbd> para moverte por la página como en un lanzador tipo rofi.</p>
+          </div>
+
+          <!-- Terminal estilo neofetch -->
+          <div class="term reveal" style="--d:200ms" role="img" aria-label="Terminal con un resumen de mi entorno: Arch Linux, Hyprland, Visual Studio Code, Python, JavaScript, HTML y CSS.">
+            <div class="term-bar"><span><b>kitty</b> — neofetch</span><span>~/chris</span></div>
+            <div class="term-body" aria-hidden="true">
+              <div class="ln" style="animation-delay:.3s"><span class="nf-head">chris</span><span style="color:var(--muted)">@</span><span class="nf-head">arch</span></div>
+              <div class="ln nf-sep" style="animation-delay:.4s">──────────────</div>
+              <dl class="nf">
+                <dt class="ln" style="animation-delay:.55s">OS</dt><dd class="ln" style="animation-delay:.55s"><b>Arch Linux</b> x86_64</dd>
+                <dt class="ln" style="animation-delay:.7s">WM</dt><dd class="ln" style="animation-delay:.7s"><b>Hyprland</b> (Wayland)</dd>
+                <dt class="ln" style="animation-delay:.85s">Editor</dt><dd class="ln" style="animation-delay:.85s"><b>VS Code</b> · terminal</dd>
+                <dt class="ln" style="animation-delay:1s">Langs</dt><dd class="ln" style="animation-delay:1s">Python · JavaScript · HTML · CSS</dd>
+                <dt class="ln" style="animation-delay:1.15s">DB</dt><dd class="ln" style="animation-delay:1.15s">MySQL · MongoDB</dd>
+                <dt class="ln" style="animation-delay:1.3s">IA</dt><dd class="ln" style="animation-delay:1.3s">Gemini · Groq/Llama · agentes</dd>
+                <dt class="ln" style="animation-delay:1.45s">Estudio</dt><dd class="ln" style="animation-delay:1.45s"><b>Ing. Informática</b> @ INACAP</dd>
+                <dt class="ln" style="animation-delay:1.6s">Mood</dt><dd class="ln" style="animation-delay:1.6s">curioso · ordenado · proactivo</dd>
+              </dl>
+              <div class="swatches ln" style="animation-delay:1.8s">
+                <i style="background:var(--red)"></i><i style="background:var(--yellow)"></i><i style="background:var(--green)"></i><i style="background:var(--cyan)"></i><i style="background:var(--accent)"></i><i style="background:var(--accent-2)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+          <div class="card stat reveal" style="--d:0ms"><div class="n" data-count="5">0</div><div class="l">proyectos construidos</div></div>
+          <div class="card stat reveal" style="--d:80ms"><div class="n" data-count="4">0</div><div class="l">lenguajes en uso</div></div>
+          <div class="card stat reveal" style="--d:160ms"><div class="n" data-count="2">0</div><div class="l">motores de IA en Axioma</div></div>
+          <div class="card stat reveal" style="--d:240ms"><div class="n" data-count="2">0</div><div class="l">año en Ing. Informática</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SOBRE MÍ ===================== -->
+    <section id="sobre-mi" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">02 / sobre mí</div>
+          <h2 id="about-title">Curioso por naturaleza, <span class="accent">enfocado en construir</span>.</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>
+              Soy estudiante de <strong>Ingeniería en Informática en INACAP</strong> y desarrollador en mis tiempos libres.
+              Me gusta probar tecnologías nuevas y llevarlas a proyectos reales, no quedarme en el tutorial.
+            </p>
+            <p>
+              Mi mayor interés está en la <span class="mark">inteligencia artificial y los agentes</span>. Gran parte de mi desarrollo
+              se apoya en <strong>vibe coding</strong>: uso agentes de IA para diseñar, prototipar e iterar rápido, y así
+              dedicar mi energía a lo que importa, que el proyecto resuelva un problema de verdad.
+            </p>
+            <p>
+              Trabajo a diario en <strong>Arch Linux con Hyprland</strong>, así que me siento cómodo en la terminal y me
+              adapto con facilidad a cualquier herramienta o entorno nuevo.
+            </p>
+          </div>
+
+          <div class="principles">
+            <div class="card principle reveal" style="--d:60ms">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></div>
+              <div><h3>Curiosidad aplicada</h3><p>Experimento con tecnologías nuevas y las aplico directamente en mis proyectos.</p></div>
+            </div>
+            <div class="card principle reveal" style="--d:140ms">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 7V3M8 13h.01M16 13h.01M9 17h6"/></svg></div>
+              <div><h3>IA y agentes</h3><p>Antigravity, Gemini y Groq/Llama como copilotos para prototipar e iterar más rápido.</p></div>
+            </div>
+            <div class="card principle reveal" style="--d:220ms">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+              <div><h3>Orden y enfoque</h3><p>Ordenado y proactivo: me gusta mantener el sistema limpio y terminar lo que empiezo.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROYECTOS ===================== -->
+    <section id="proyectos" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">03 / proyectos</div>
+          <h2 id="projects-title">Cosas que <span class="accent">he construido</span>.</h2>
+          <p>Juegos, herramientas y apps: desde un debate contra IAs rivales hasta un organizador de archivos con IA local.</p>
+        </div>
+
+        <div class="filters reveal" role="group" aria-label="Filtrar proyectos">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="chip" type="button" data-filter="ia" aria-pressed="false">IA</button>
+          <button class="chip" type="button" data-filter="escritorio" aria-pressed="false">Escritorio</button>
+          <button class="chip" type="button" data-filter="web" aria-pressed="false">Web</button>
+          <button class="chip" type="button" data-filter="movil" aria-pressed="false">Móvil</button>
+        </div>
+
+        <div class="projects" id="project-grid">
+
+          <!-- ============ AXIOMA ============ -->
+          <article class="card project feature reveal" data-cat="ia escritorio">
+            <div class="shot">
+              <svg viewBox="0 0 640 330" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de Axioma: dos jefes con barras de vida y un campo para escribir argumentos">
+                <defs><pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" class="f-m" opacity=".5"/></pattern></defs>
+                <rect width="640" height="330" class="f-bg"/>
+                <rect width="640" height="330" fill="url(#dots)"/>
+                <g class="mono">
+                  <text x="34" y="62" font-size="38" font-weight="800" class="f-y" style="letter-spacing:.14em">AXIOMA</text>
+                  <text x="36" y="84" font-size="11" class="f-m" style="letter-spacing:.2em">DEBATE · LÓGICA · CREDIBILIDAD</text>
+
+                  <!-- Jefe 1 -->
+                  <rect x="46" y="110" width="262" height="96" class="f-y" opacity=".95"/>
+                  <rect x="38" y="102" width="262" height="96" class="f-s" stroke-width="3" style="stroke:var(--text)"/>
+                  <text x="54" y="128" font-size="11" class="f-m" style="letter-spacing:.15em">RIVAL 01 · GROQ / LLAMA</text>
+                  <text x="54" y="156" font-size="20" font-weight="800" class="f-t">RIVAL IA</text>
+                  <rect x="54" y="170" width="230" height="12" class="f-bg" stroke-width="2" style="stroke:var(--text)"/>
+                  <rect x="56" y="172" width="150" height="8" class="f-r"/>
+
+                  <!-- Jefe 2 -->
+                  <rect x="346" y="110" width="262" height="96" class="f-c" opacity=".95"/>
+                  <rect x="338" y="102" width="262" height="96" class="f-s" stroke-width="3" style="stroke:var(--text)"/>
+                  <text x="354" y="128" font-size="11" class="f-m" style="letter-spacing:.15em">RIVAL 02 · GEMINI</text>
+                  <text x="354" y="156" font-size="20" font-weight="800" class="f-t">RIVAL IA</text>
+                  <rect x="354" y="170" width="230" height="12" class="f-bg" stroke-width="2" style="stroke:var(--text)"/>
+                  <rect x="356" y="172" width="96" height="8" class="f-r"/>
+
+                  <!-- Entrada de argumento -->
+                  <rect x="38" y="232" width="424" height="52" class="f-bg" stroke-width="3" style="stroke:var(--accent)"/>
+                  <text x="54" y="263" font-size="14" class="f-g">&gt; premisa → conclusión<tspan class="f-t">_</tspan></text>
+                  <rect x="478" y="232" width="122" height="52" class="f-a"/>
+                  <text x="539" y="264" font-size="13" font-weight="800" text-anchor="middle" class="f-onacc" style="letter-spacing:.12em">ARGUMENTAR</text>
+
+                  <text x="38" y="308" font-size="10" class="f-m" style="letter-spacing:.18em">TU CREDIBILIDAD</text>
+                  <rect x="200" y="298" width="150" height="10" class="f-bg" stroke-width="2" style="stroke:var(--text)"/>
+                  <rect x="202" y="300" width="104" height="6" class="f-g"/>
+                </g>
+              </svg>
+            </div>
+            <div class="p-body">
+              <div class="p-meta"><span>Personal</span><span class="tag hot">Destacado</span></div>
+              <h3>Axioma</h3>
+              <p>Juego de escritorio de debate lógico con estética neo-brutalista. Dos motores de IA, <strong>Groq/Llama</strong> y <strong>Gemini</strong>, hacen de jefes rivales, y un sistema de credibilidad (HP) lleva la cuenta del debate.</p>
+              <div class="p-facts"><span>6 pantallas</span><span>14 íconos SVG propios</span><span>modos de juego y cooldowns</span></div>
+              <div class="p-foot">
+                <div class="tags"><span class="tag">Electron</span><span class="tag">JavaScript</span><span class="tag">Groq · Llama</span><span class="tag">Gemini</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ============ ORGPRO ============ -->
+          <article class="card project feature reveal" style="--d:100ms" data-cat="ia escritorio">
+            <div class="shot">
+              <svg viewBox="0 0 640 330" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de OrgPro: archivos desordenados que se ordenan en carpetas">
+                <rect width="640" height="330" class="f-bg"/>
+                <g class="mono" font-size="12">
+                  <!-- Ventana izquierda -->
+                  <rect x="26" y="26" width="290" height="278" rx="6" class="f-s" stroke-width="1.5" style="stroke:var(--accent)"/>
+                  <rect x="26" y="26" width="290" height="26" rx="6" class="f-s2"/>
+                  <text x="42" y="44" class="f-a" font-weight="700" font-size="11" style="letter-spacing:.1em">~/DESCARGAS</text>
+                  <g class="f-t">
+                    <text x="44" y="82">▫ foto_final_FINAL(2).jpg</text>
+                    <text x="44" y="110">▫ factura_octubre.pdf</text>
+                    <text x="44" y="138">▫ tesis_v3.docx</text>
+                    <text x="44" y="166">▫ captura_0412.png</text>
+                    <text x="44" y="194">▫ planilla.xlsx</text>
+                    <text x="44" y="222">▫ setup_installer.exe</text>
+                  </g>
+                  <rect x="44" y="254" width="254" height="10" rx="5" class="f-bg"/>
+                  <rect x="44" y="254" width="164" height="10" rx="5" class="f-a"/>
+                  <text x="44" y="288" class="f-m" font-size="11">Deep Scan · 64 %</text>
+
+                  <!-- Flechas -->
+                  <g class="s-g" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M326 110h30M348 102l8 8-8 8"/>
+                    <path d="M326 166h30M348 158l8 8-8 8"/>
+                    <path d="M326 222h30M348 214l8 8-8 8"/>
+                  </g>
+
+                  <!-- Ventana derecha -->
+                  <rect x="366" y="26" width="248" height="278" rx="6" class="f-s" stroke-width="1.5" style="stroke:var(--accent-2)"/>
+                  <rect x="366" y="26" width="248" height="26" rx="6" class="f-s2"/>
+                  <text x="382" y="44" class="f-b" font-weight="700" font-size="11" style="letter-spacing:.1em">~/ORDENADO</text>
+                  <g>
+                    <text x="384" y="82" class="f-y">▸ Imágenes/</text>
+                    <text x="402" y="102" class="f-m" font-size="11">foto_final · captura</text>
+                    <text x="384" y="140" class="f-y">▸ Documentos/</text>
+                    <text x="402" y="160" class="f-m" font-size="11">factura · tesis · planilla</text>
+                    <text x="384" y="198" class="f-y">▸ Programas/</text>
+                    <text x="402" y="218" class="f-m" font-size="11">setup_installer</text>
+                    <text x="384" y="276" class="f-g" font-weight="700">✓ 6 archivos ordenados</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="p-body">
+              <div class="p-meta"><span>Personal · v1.6 Arch Edition</span><span class="tag ok">En GitHub</span></div>
+              <h3><a href="https://github.com/ItsChrisPJ/OrgPro" target="_blank" rel="noopener noreferrer">OrgPro</a></h3>
+              <p>Organizador inteligente de archivos. Clasifica y ordena tus carpetas de forma local o con IA a través de una API. Usa <strong>IA local (Llama 3.1)</strong> con Deep Scan sin congelar la interfaz, con diseño inspirado en tiling window managers.</p>
+              <div class="p-foot">
+                <div class="tags"><span class="tag">IA local</span><span class="tag">Llama 3.1</span><span class="tag">API</span><span class="tag">Escritorio</span></div>
+                <div><a class="btn small" href="https://github.com/ItsChrisPJ/OrgPro" target="_blank" rel="noopener noreferrer">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+                  Ver en GitHub</a></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ============ MAULE PAY ============ -->
+          <article class="card project reveal" data-cat="movil">
+            <div class="shot">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de Maule Pay: un teléfono con un pago en cola y poca señal">
+                <rect width="640" height="360" class="f-bg"/>
+                <g class="mono">
+                  <rect x="236" y="26" width="168" height="316" rx="22" class="f-s" stroke-width="3" style="stroke:var(--accent)"/>
+                  <rect x="298" y="36" width="44" height="6" rx="3" class="f-s2"/>
+                  <!-- señal -->
+                  <g class="f-m"><rect x="352" y="62" width="5" height="6" rx="1" class="f-g"/><rect x="361" y="58" width="5" height="10" rx="1" class="f-s2"/><rect x="370" y="54" width="5" height="14" rx="1" class="f-s2"/><rect x="379" y="50" width="5" height="18" rx="1" class="f-s2"/></g>
+                  <text x="256" y="68" font-size="11" class="f-m">9:41</text>
+                  <text x="320" y="118" font-size="12" text-anchor="middle" class="f-m">Total a pagar</text>
+                  <text x="320" y="152" font-size="30" font-weight="800" text-anchor="middle" class="f-t">$12.500</text>
+                  <rect x="256" y="178" width="128" height="40" rx="10" class="f-s2"/>
+                  <text x="320" y="203" font-size="11" text-anchor="middle" class="f-y">◔ en cola · sin señal</text>
+                  <rect x="256" y="234" width="128" height="40" rx="10" class="f-a"/>
+                  <text x="320" y="259" font-size="12" font-weight="800" text-anchor="middle" class="f-onacc">PAGAR</text>
+                  <text x="320" y="306" font-size="10" text-anchor="middle" class="f-g">se sincroniza al reconectar</text>
+                </g>
+                <g class="s-m" fill="none" stroke-width="2" stroke-linecap="round" opacity=".6"><path d="M120 150a60 60 0 0 1 84 0"/><path d="M138 172a34 34 0 0 1 48 0"/><circle cx="162" cy="192" r="3" class="f-m"/><path d="M118 112l88 100" class="s-r" opacity=".9"/></g>
+              </svg>
+            </div>
+            <div class="p-body">
+              <div class="p-meta"><span>Académico</span><span class="tag">Simulación</span></div>
+              <h3>Maule Pay</h3>
+              <p>Aplicación que simula la solución a un problema de pagos en la región del Maule, pensada para condiciones de señal débil.</p>
+              <div class="p-foot"><div class="tags"><span class="tag">Pagos</span><span class="tag">Baja conectividad</span><span class="tag">Móvil</span></div></div>
+            </div>
+          </article>
+
+          <!-- ============ BUALE APP ============ -->
+          <article class="card project reveal" style="--d:80ms" data-cat="movil">
+            <div class="shot">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de Buale App: pantalla de aplicación móvil minimalista">
+                <rect width="640" height="360" class="f-bg"/>
+                <g class="mono">
+                  <rect x="236" y="26" width="168" height="316" rx="22" class="f-s" stroke-width="3" style="stroke:var(--accent-2)"/>
+                  <text x="256" y="72" font-size="15" font-weight="800" class="f-t">Buale</text>
+                  <circle cx="378" cy="66" r="9" class="f-s2"/>
+                  <rect x="256" y="90" width="128" height="26" rx="13" class="f-s2"/>
+                  <text x="272" y="107" font-size="10" class="f-m">Buscar productos…</text>
+                  <rect x="256" y="130" width="60" height="78" rx="12" class="f-s2"/><circle cx="286" cy="158" r="14" class="f-b"/><rect x="266" y="184" width="40" height="5" rx="2.5" class="f-m" opacity=".5"/>
+                  <rect x="324" y="130" width="60" height="78" rx="12" class="f-s2"/><circle cx="354" cy="158" r="14" class="f-c"/><rect x="334" y="184" width="40" height="5" rx="2.5" class="f-m" opacity=".5"/>
+                  <rect x="256" y="218" width="60" height="78" rx="12" class="f-s2"/><circle cx="286" cy="246" r="14" class="f-y"/><rect x="266" y="272" width="40" height="5" rx="2.5" class="f-m" opacity=".5"/>
+                  <rect x="324" y="218" width="60" height="78" rx="12" class="f-s2"/><circle cx="354" cy="246" r="14" class="f-g"/><rect x="334" y="272" width="40" height="5" rx="2.5" class="f-m" opacity=".5"/>
+                  <rect x="286" y="312" width="68" height="6" rx="3" class="f-s2"/>
+                </g>
+              </svg>
+            </div>
+            <div class="p-body">
+              <div class="p-meta"><span>Personal</span><span class="tag">Propuesta</span></div>
+              <h3>Buale App</h3>
+              <p>Propuesta de aplicación móvil para la tienda Buale, con un diseño innovador y minimalista.</p>
+              <div class="p-foot"><div class="tags"><span class="tag">UI / UX</span><span class="tag">Minimalista</span><span class="tag">Móvil</span></div></div>
+            </div>
+          </article>
+
+          <!-- ============ BODA ============ -->
+          <article class="card project reveal" style="--d:160ms" data-cat="web">
+            <div class="shot">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de la página de la boda: anillos entrelazados y datos de lugar, fecha y hora">
+                <rect width="640" height="360" class="f-bg"/>
+                <g>
+                  <circle cx="300" cy="88" r="34" fill="none" class="s-y" stroke-width="5"/>
+                  <circle cx="340" cy="88" r="34" fill="none" class="s-a" stroke-width="5"/>
+                  <text x="320" y="176" font-size="34" text-anchor="middle" class="f-t" style="font-family:Georgia,'Times New Roman',serif;font-style:italic">Nuestra boda</text>
+                  <g class="mono" font-size="12" text-anchor="middle">
+                    <text x="320" y="214" class="f-m" style="letter-spacing:.3em">LUGAR · FECHA · HORA</text>
+                    <rect x="160" y="246" width="150" height="38" rx="19" fill="none" class="s-a" stroke-width="1.5"/>
+                    <text x="235" y="270" class="f-a">📍 Google Maps</text>
+                    <rect x="330" y="246" width="150" height="38" rx="19" fill="none" class="s-g" stroke-width="1.5"/>
+                    <text x="405" y="270" class="f-g">WhatsApp</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="p-body">
+              <div class="p-meta"><span>Personal</span><span class="tag">Sitio web</span></div>
+              <h3>Boda</h3>
+              <p>Página web informativa de mi ceremonia religiosa: lugar, fecha y hora, con enlace a Google Maps y a un grupo de WhatsApp.</p>
+              <div class="p-foot"><div class="tags"><span class="tag">Web</span><span class="tag">Google Maps</span><span class="tag">WhatsApp</span></div></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="more-repos reveal">
+          <a class="btn ghost" href="https://github.com/ItsChrisPJ?tab=repositories" target="_blank" rel="noopener noreferrer">Ver todos mis repositorios en GitHub
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STACK ===================== -->
+    <section id="stack" aria-labelledby="stack-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">04 / stack</div>
+          <h2 id="stack-title">Herramientas con las que <span class="accent">trabajo</span>.</h2>
+        </div>
+
+        <div class="stack-grid">
+          <div class="card stack-card reveal">
+            <h3>lenguajes</h3>
+            <div class="skills">
+              <span class="skill" style="--c:var(--yellow)"><i></i>Python</span>
+              <span class="skill" style="--c:var(--yellow)"><i></i>JavaScript</span>
+              <span class="skill" style="--c:var(--red)"><i></i>HTML</span>
+              <span class="skill" style="--c:var(--accent)"><i></i>CSS</span>
+            </div>
+          </div>
+          <div class="card stack-card reveal" style="--d:80ms">
+            <h3>bases de datos</h3>
+            <div class="skills">
+              <span class="skill" style="--c:var(--cyan)"><i></i>SQL <small>MySQL Workbench</small></span>
+              <span class="skill" style="--c:var(--green)"><i></i>NoSQL <small>MongoDB</small></span>
+            </div>
+          </div>
+          <div class="card stack-card reveal" style="--d:0ms">
+            <h3>entorno y herramientas</h3>
+            <div class="skills">
+              <span class="skill" style="--c:var(--accent)"><i></i>Arch Linux</span>
+              <span class="skill" style="--c:var(--accent-2)"><i></i>Hyprland</span>
+              <span class="skill" style="--c:var(--accent)"><i></i>Visual Studio Code</span>
+              <span class="skill" style="--c:var(--green)"><i></i>Terminal Linux / Windows</span>
+              <span class="skill" style="--c:var(--cyan)"><i></i>Electron</span>
+              <span class="skill" style="--c:var(--text-dim)"><i></i>GitHub</span>
+            </div>
+          </div>
+          <div class="card stack-card reveal" style="--d:80ms">
+            <h3>ia y agentes</h3>
+            <div class="skills">
+              <span class="skill" style="--c:var(--accent-2)"><i></i>Antigravity <small>Gemini</small></span>
+              <span class="skill" style="--c:var(--accent)"><i></i>Google Gemini</span>
+              <span class="skill" style="--c:var(--yellow)"><i></i>Groq · Llama</span>
+              <span class="skill" style="--c:var(--green)"><i></i>Vibe coding</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TRAYECTORIA ===================== -->
+    <section id="trayectoria" aria-labelledby="path-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">05 / trayectoria</div>
+          <h2 id="path-title">Formación y <span class="accent">experiencia</span>.</h2>
+          <p>Antes y junto a la programación he trabajado de cara al público y en terreno: me enseñó responsabilidad, trato con personas y constancia.</p>
+        </div>
+
+        <div class="path-grid">
+          <div class="path-col reveal">
+            <h3>formación</h3>
+            <div class="timeline">
+              <div class="tl-item now">
+                <div class="tl-date">Mar 2025 — presente</div>
+                <h4>Ingeniería en Informática</h4>
+                <div class="org">INACAP · Sede Renca</div>
+                <p>Primer año completado (2025); segundo año en curso desde marzo de 2026.</p>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">2020 — 2024</div>
+                <h4>Educación Media · mención Administración de Empresas</h4>
+                <div class="org">Liceo Polivalente Jerusalén de Lampa</div>
+                <p>Educación media completa y práctica profesional terminada.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="path-col reveal" style="--d:100ms">
+            <h3>experiencia laboral</h3>
+            <div class="timeline">
+              <div class="tl-item now">
+                <div class="tl-date">Ene 2026 — presente · Part-time</div>
+                <h4>Reponedor y atención al cliente</h4>
+                <div class="org">Buale · Quilicura</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">Jun — Ago 2025 · Part-time</div>
+                <h4>Auxiliar de sección</h4>
+                <div class="org">Unimarc · Batuco</div>
+                <p>Apoyo en carnicería, pastelería, panadería y lácteos.</p>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">Dic 2024 — Feb 2025 · Full-time</div>
+                <h4>Corredor de propiedades (práctica profesional)</h4>
+                <div class="org">Casolpropiedades · La Rapinta</div>
+                <p>Corretaje, atención a clientes y gestión de publicaciones.</p>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">Ene — Feb 2024 · Full-time</div>
+                <h4>Operario de producción</h4>
+                <div class="org">Dimfer · Av. La Montaña</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">Ene 2022 · Full-time</div>
+                <h4>Vendedor / atención al cliente</h4>
+                <div class="org">Amansadería Oscar · Algarrobo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACTO ===================== -->
+    <section id="contacto" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="card contact-card reveal">
+          <div class="eyebrow" style="justify-content:center">06 / contacto</div>
+          <h2 id="contact-title">¿Construimos algo <span class="grad">juntos</span>?</h2>
+          <p>Estoy siempre aprendiendo y abierto a conversar sobre proyectos, prácticas o ideas. Escríbeme y te respondo.</p>
+          <div class="contact-actions">
+            <a class="btn" href="mailto:chris.toloza.dev@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              Enviar correo
+            </a>
+            <button class="btn ghost" type="button" id="copy-mail">Copiar email</button>
+            <a class="btn ghost" href="https://github.com/ItsChrisPJ" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+          <p class="mail-line">→ <b>chris.toloza.dev@gmail.com</b></p>
+        </div>
+
+        <div class="card support reveal">
+          <div>
+            <h3>☕ Apoya mis proyectos</h3>
+            <p>Si OrgPro o alguna de mis herramientas te ahorró horas de trabajo, puedes invitarme un café de forma segura para mantener los repositorios vivos.</p>
+          </div>
+          <a class="btn green small" href="https://link.mercadopago.cl/itschrispj" target="_blank" rel="noopener noreferrer">&gt;_ Apoyar con MercadoPago</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><span class="exit">root@chris-portfolio:~#</span> exit</p>
+      <p>© <span id="year">2026</span> Cristopher Toloza · Hecho con ☕, código y Arch Linux · <a href="https://github.com/ItsChrisPJ/ItsChrisPJ.github.io" target="_blank" rel="noopener noreferrer">ver el código</a></p>
+    </div>
+  </footer>
+
+  <!-- ===================== PALETA DE COMANDOS ===================== -->
+  <div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Lanzador de comandos" aria-hidden="true">
+    <div class="pal-box">
+      <div class="pal-input">
+        <span>&gt;</span>
+        <input id="pal-q" type="text" placeholder="Ir a… (proyectos, contacto, tema)" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="pal-list" aria-autocomplete="list">
+      </div>
+      <div class="pal-list" id="pal-list" role="listbox"></div>
+      <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> mover</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
