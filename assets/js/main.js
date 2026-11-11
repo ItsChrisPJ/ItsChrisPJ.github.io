@@ -124,7 +124,6 @@
     if (saved && saved.mode) {
       FX_KEYS.concat(["glass"]).forEach(function (k) { if (typeof saved[k] === "boolean") state[k] = saved[k]; });
       if (typeof saved.city !== "boolean" && MODES[saved.mode]) state.city = MODES[saved.mode].city;
-      if (saved.cityStyle === "pixel" || saved.cityStyle === "anime") state.cityStyle = saved.cityStyle;
       state.mode = saved.mode;
     } else {
       applyMode(REC, true);
@@ -139,7 +138,7 @@
   }
 
   function persist() {
-    var o = { mode: state.mode, cityStyle: state.cityStyle };
+    var o = { mode: state.mode };
     FX_KEYS.concat(["glass"]).forEach(function (k) { o[k] = state[k]; });
     safeSet("localStorage", "ambiente", JSON.stringify(o));
   }
@@ -152,7 +151,6 @@
       var k = i.getAttribute("data-fx");
       i.checked = k === "sound" ? state.sound : !!state[k];
     });
-    $$("input[data-city]").forEach(function (i) { i.checked = i.getAttribute("data-city") === state.cityStyle; });
     $$("[data-rec]").forEach(function (el) { el.hidden = el.getAttribute("data-rec") !== REC; });
     var sb = $("#sound-btn");
     if (sb) sb.setAttribute("aria-pressed", state.sound ? "true" : "false");
@@ -877,10 +875,6 @@
     if (!t || !t.matches) return;
     if (t.matches("input[data-mode]")) {
       applyMode(t.getAttribute("data-mode"));
-    } else if (t.matches("input[data-city]")) {
-      state.cityStyle = t.getAttribute("data-city");
-      if (!state.city) { state.city = true; state.mode = "custom"; }
-      refresh();
     } else if (t.matches("input[data-fx]")) {
       var k = t.getAttribute("data-fx");
       if (k === "sound") { setSound(t.checked); return; }

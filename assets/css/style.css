@@ -588,20 +588,6 @@ footer p + p { margin-top: 6px; }
 .ambient .toggles label { display: flex; align-items: center; gap: 12px; padding: 5px 0; color: var(--text-dim); cursor: pointer; }
 .ambient .toggles input { accent-color: var(--amber); width: 18px; height: 18px; }
 .ambient .btn { width: 100%; }
-
-/* Selector de estilo de la ciudad (intro y panel) */
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 18px; text-align: left; }
-.seg-t { grid-column: 1 / -1; font-size: .86rem; color: var(--muted); }
-.seg label { position: relative; cursor: pointer; }
-.seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.seg label > span {
-  display: block; text-align: center; padding: 10px 8px; border: 1px solid var(--line); border-radius: 10px;
-  background: rgba(22, 42, 55, .55); font-weight: 600; color: var(--text-dim); transition: border-color .2s, background .2s;
-}
-.seg label:hover > span { border-color: rgba(255, 181, 71, .5); }
-.seg input:checked + span { border-color: var(--amber); background: rgba(255, 181, 71, .08); color: var(--text); }
-.seg input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 3px; }
-
 /* ---------- Aviso ---------- */
 .toast {
   position: fixed; left: 50%; bottom: 28px; z-index: 600; transform: translate(-50%, 30px); opacity: 0; pointer-events: none;

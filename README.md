@@ -40,9 +40,7 @@ calcula según el equipo y se respeta `prefers-reduced-motion`.
 
 Detrás de todo corre una ciudad nocturna en loop (de derecha a izquierda, con capas a distinta
 velocidad, calle con farolas, un café encendido y autos que cruzan de vez en cuando). Se dibuja con
-canvas, sin imágenes ni video, y se puede ver en dos estilos que se eligen en **Ambiente**:
-**Pixel art** (baja resolución escalada) o **Anime lo-fi** (gradientes, brillo y neblina).
-Es la misma ciudad en ambos. Al bajar del inicio se atenúa para no estorbar la lectura.
+canvas en pixel art, sin imágenes ni video. Al bajar del inicio se atenúa para no estorbar la lectura.
 
 - **Velocidad:** campo `speed` de cada capa en `genCity()` y `streetSpeed` (`assets/js/main.js`).
 - **Tamaño y densidad de los edificios:** `hMin`, `hMax`, `p` (ventanas encendidas) y `sign` (neones) por capa.
