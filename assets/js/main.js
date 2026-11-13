@@ -156,6 +156,7 @@
     if (sb) sb.setAttribute("aria-pressed", state.sound ? "true" : "false");
     syncRain();
     syncCity();
+    syncSky();
     persist();
   }
 
@@ -830,6 +831,44 @@
     else if (!cityRaf) { cityPrev = 0; cityRaf = requestAnimationFrame(cityFrame); }
   }
   document.addEventListener("visibilitychange", syncCity);
+
+  /* ---------- Cielo animado (Paper Shaders, se carga solo cuando hace falta) ---------- */
+  var skyMount = null, skyLoading = false;
+  function skyWanted() { return state.city && state.mode !== "low" && !document.hidden; }
+  function mountSky() {
+    var el = $("#sky"), P = window.PaperSky;
+    if (!el || !P || skyMount) return;
+    function col(h) { return P.color(h); }
+    try {
+      skyMount = new P.ShaderMount(el, P.frag, {
+        u_colors: ["#0a131b", "#1a2a4d", "#3b2748", "#0f2230", "#5b3547"].map(col),
+        u_colorsCount: 5, u_distortion: 0.8, u_swirl: 0.25, u_grainMixer: 0, u_grainOverlay: 0.04,
+        u_fit: 0, u_scale: 1.3, u_rotation: 0, u_offsetX: 0, u_offsetY: 0,
+        u_originX: .5, u_originY: .5, u_worldWidth: 0, u_worldHeight: 0
+      }, {}, reduceMotion ? 0 : 0.08, 3000, 1, 2000000);
+      el.classList.add("on");
+    } catch (e) { skyMount = null; }
+  }
+  function syncSky() {
+    var el = $("#sky");
+    if (!el) return;
+    if (!skyWanted()) {
+      el.classList.remove("on");
+      if (skyMount) { try { skyMount.dispose(); } catch (e) {} skyMount = null; }
+      return;
+    }
+    if (skyMount) { el.classList.add("on"); return; }
+    if (window.PaperSky) { mountSky(); return; }
+    if (skyLoading) return;
+    skyLoading = true;
+    var s = document.createElement("script");
+    s.src = "assets/js/paper-sky.js"; s.async = true;
+    s.onload = function () { skyLoading = false; syncSky(); };
+    s.onerror = function () { skyLoading = false; };
+    document.head.appendChild(s);
+  }
+  document.addEventListener("visibilitychange", syncSky);
+
   var cz;
   window.addEventListener("resize", function () { clearTimeout(cz); cz = setTimeout(function () { city = null; syncCity(); }, 250); });
 

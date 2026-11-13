@@ -48,6 +48,10 @@ canvas en pixel art, sin imágenes ni video. Al bajar del inicio se atenúa para
 - **Dirección:** se invierte cambiando el signo del desplazamiento en `drawCity()`.
 - Se apaga en el modo Ligero y con `prefers-reduced-motion` (queda una imagen fija).
 
+### Cielo animado y video de presentación
+- **Cielo**: degradado de malla de [Paper Shaders](https://github.com/paper-design/shaders) (Apache 2.0), empaquetado en `assets/js/paper-sky.js` (21 KB, sin CDN) y cargado solo si la ciudad está activa y el modo no es Ligero. Con `prefers-reduced-motion` queda quieto.
+- **Video** (`assets/media/showreel.mp4`, 20 s, 1,3 MB, sin audio): hecho con [HyperFrames](https://github.com/heygen-com/hyperframes) a partir de HTML y GSAP, con la misma ciudad pixel art del sitio. No se descarga hasta que se pulsa play (`preload="none"`).
+
 ## Probar en local
 
 ```bash
